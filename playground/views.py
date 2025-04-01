@@ -7,5 +7,5 @@ from django.shortcuts import render
 # action
 
 def say_hello(request):
-    return render(request, 'hello.html')
+    return render(request, 'hello.html', {'name': 'John'})
     
