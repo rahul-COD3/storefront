@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import Count
 from django.urls import reverse
 from django.utils.html import format_html, urlencode
@@ -6,28 +6,49 @@ from . import models
 
 
 class InventoryFilter(admin.SimpleListFilter):
-    title = 'inventory'
-    parameter_name = 'inventory'
-    
+    title = "inventory"
+    parameter_name = "inventory"
+
     def lookups(self, request, model_admin):
-        return [('<10', 'Low'), ('>10', 'Ok')]
-    
+        return [("<10", "Low"), (">10", "Ok")]
+
     def queryset(self, request, queryset):
-        if self.value() == '<10':
+        if self.value() == "<10":
             return queryset.filter(inventory__lt=10)
-        if self.value() == '>10':
+        if self.value() == ">10":
             return queryset.filter(inventory__gt=10)
 
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["title", "unit_price", "inventory_status", "collection"]
+    autocomplete_fields = ["collection"]
+    prepopulated_fields = {
+        "slug": ["title"],
+    }
+    actions = ["clear_inventory"]
+    list_display = [
+        "title",
+        "inventory",
+        "unit_price",
+        "inventory_status",
+        "collection"
+    ]
     list_per_page = 10
-    list_filter = ['collection', 'last_update', InventoryFilter]
+    list_filter = ["collection", "last_update", InventoryFilter]
 
     @admin.display(ordering="inventory")
     def inventory_status(self, obj):
         return obj.inventory > 10 and "Ok" or "Low"
+
+    @admin.action(description="Clear inventory")
+    def clear_inventory(self, request, queryset):
+        updated_count = queryset.update(inventory=0)
+
+        self.message_user(
+            request,
+            f"{updated_count} products were successfully updated.",
+            messages.SUCCESS,
+        )
 
 
 @admin.register(models.Customer)
@@ -50,6 +71,7 @@ class CustomerAdmin(admin.ModelAdmin):
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ["title", "product_count"]
     list_per_page = 10
+    search_fields = ["title"]
 
     @admin.display(ordering="products__count")
     def product_count(self, obj):
@@ -62,6 +84,7 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["customer"]
     list_display = ["id", "placed_at", "customer"]
     list_select_related = ["customer"]
     list_per_page = 10
