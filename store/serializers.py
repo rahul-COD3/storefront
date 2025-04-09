@@ -10,10 +10,14 @@ class CollectionSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'title', 'unit_price', 'price_with_tax', 'collection']
+        fields = ['id', 'title', 'slug', 'description', 'unit_price', 'price_with_tax', 'inventory', 'collection']
     
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
 
     def calculate_tax(self, product: Product):
         return product.unit_price * Decimal(1.1)
     
+    def validate(self, attrs):
+        if attrs['unit_price'] < 1:
+            raise serializers.ValidationError("Price must be greater than 1")
+        return attrs
