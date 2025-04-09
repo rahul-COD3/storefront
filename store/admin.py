@@ -81,10 +81,10 @@ class CollectionAdmin(admin.ModelAdmin):
     @admin.display(ordering="products__count")
     def product_count(self, obj):
         url = f"{reverse('admin:store_product_changelist')}?{urlencode({'collection__id': obj.id})}"
-        return format_html("<a href='{}'>{}</a>", url, obj.products__count)
+        return format_html("<a href='{}'>{}</a>", url, obj.products_count)
 
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(products__count=Count("product"))
+        return super().get_queryset(request).annotate(products_count=Count("products"))
 
 
 @admin.register(models.Order)
