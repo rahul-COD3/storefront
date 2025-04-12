@@ -58,12 +58,14 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["user"]
     list_display = ["user__first_name", "membership", "orders"]
     list_editable = ["membership"]
     list_per_page = 10
     ordering = ["user__first_name", "user__last_name"]
     search_fields = ["user__first_name__istartswith"]
 
+    @admin.display(ordering="orders")
     def orders(self, obj):
         url = f"{reverse('admin:store_order_changelist')}?{urlencode({'customer__id': obj.id})}"
         return format_html("<a href='{}'>{}</a>", url, obj.orders)
