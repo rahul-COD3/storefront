@@ -58,11 +58,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ["first_name", "membership", "orders"]
+    list_display = ["user__first_name", "membership", "orders"]
     list_editable = ["membership"]
     list_per_page = 10
-    ordering = ["first_name", "last_name"]
-    search_fields = ["first_name__istartswith"]
+    ordering = ["user__first_name", "user__last_name"]
+    search_fields = ["user__first_name__istartswith"]
 
     def orders(self, obj):
         url = f"{reverse('admin:store_order_changelist')}?{urlencode({'customer__id': obj.id})}"
