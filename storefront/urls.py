@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
@@ -24,8 +26,10 @@ admin.site.site_header = "Storefront Admin"
 admin.site.site_title = "Storefront Admin Portal"
 admin.site.index_title = "Welcome to the Storefront Admin Portal"
 
+
 def health_check(request):
     return JsonResponse({"status": "ok"})
+
 
 urlpatterns = [
     path("", health_check),
@@ -35,3 +39,6 @@ urlpatterns = [
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
 ] + debug_toolbar_urls()
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
