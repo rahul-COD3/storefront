@@ -18,12 +18,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
+from django.http import JsonResponse
 
 admin.site.site_header = "Storefront Admin"
 admin.site.site_title = "Storefront Admin Portal"
 admin.site.index_title = "Welcome to the Storefront Admin Portal"
 
+def health_check(request):
+    return JsonResponse({"status": "ok"})
+
 urlpatterns = [
+    path("", health_check),
     path("admin/", admin.site.urls),
     path("playground/", include("playground.urls")),
     path("store/", include("store.urls")),
