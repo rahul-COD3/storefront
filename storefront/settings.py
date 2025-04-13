@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_filters",
     "rest_framework",
-    'djoser',
+    "djoser",
     "playground",
     "debug_toolbar",
     "store",
@@ -91,7 +91,7 @@ WSGI_APPLICATION = "storefront.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "storefront",
+        "NAME": "storefront2",
         "USER": "postgres",
         "PASSWORD": "root",
         "HOST": "localhost",
@@ -99,8 +99,6 @@ DATABASES = {
     }
 }
 
-
-AUTH_USER_MODEL = "core.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -144,20 +142,22 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': False,
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "COERCE_DECIMAL_TO_STRING": False,
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 
+AUTH_USER_MODEL = "core.User"
+
 DJOSER = {
-    'SERIALIZERS': {
-        'user_create': 'core.serializers.UserCreateSerializer',
-        'current_user': 'core.serializers.UserSerializer',
+    "SERIALIZERS": {
+        "user_create": "core.serializers.UserCreateSerializer",
+        "current_user": "core.serializers.UserSerializer",
     }
 }
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('JWT',),
+    "AUTH_HEADER_TYPES": ("JWT",),
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=8),
 }
