@@ -65,7 +65,6 @@ class AddCartItemSerializer(serializers.ModelSerializer):
     product_id = serializers.IntegerField()
 
     def validate_product_id(self, value):
-        # Ensure the product exists
         if not Product.objects.filter(id=value).exists():
             raise serializers.ValidationError("No product with the given id was found.")
         return value
@@ -79,8 +78,7 @@ class AddCartItemSerializer(serializers.ModelSerializer):
             cart_id=cart_id, product_id=product_id,
             defaults={'quantity': quantity}
         )
-
-        # If the item already exists, update the quantity
+        
         if not created:
             cart_item.quantity += quantity
             cart_item.save()
