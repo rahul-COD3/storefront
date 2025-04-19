@@ -95,14 +95,19 @@ WSGI_APPLICATION = "storefront.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# Database configuration
+# Using PostgreSQL as the database engine.
+# Update the HOST value based on your environment:
+# - Use "localhost" for Windows.
+# - Use the appropriate IP address (e.g., "172.31.112.1") for WSL or other setups.
+# - To get the WSL setup IP, run the command: `ip route | grep default` in the WSL terminal.
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "storefront2",
         "USER": "postgres",
         "PASSWORD": "root",
-        # "HOST": "localhost",  # For Windows, use localhost
-        "HOST": "172.31.112.1",  # Windows host IP for PostgreSQL access from WSL
+        "HOST": "172.31.112.1",
         "PORT": "5432",
     }
 }
