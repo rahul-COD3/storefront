@@ -1,18 +1,14 @@
-from django.http import HttpResponse
+from django.core.mail import EmailMessage, BadHeaderError
 from django.shortcuts import render
-
-# Create your views here.
-# request -> response
-# request handler
-# action
-
-def calculate():
-    x = 1
-    y = 2
-    return x + y
+from templated_mail.mail import BaseEmailMessage
 
 
 def say_hello(request):
-    x = calculate()
-    return render(request, 'hello.html', {'name': 'John'})
-    
+    try:
+        message = BaseEmailMessage(
+            template_name="emails/hello.html", context={"name": "Rahul"}
+        )
+        message.send(["john@rahul.com"])
+    except BadHeaderError:
+        pass
+    return render(request, "hello.html", {"name": "Rahul"})
