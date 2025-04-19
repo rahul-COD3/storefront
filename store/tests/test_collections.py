@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from store.models import Collection
 from rest_framework import status
 from model_bakery import baker
@@ -62,7 +61,7 @@ class TestRetrieveCollection:
         }
 
     def test_if_get_all_collections_returns_200(self, api_client):
-        collections = baker.make(Collection, _quantity=5)
+        baker.make(Collection, _quantity=5)
 
         response = api_client.get("/store/collections/")
 
