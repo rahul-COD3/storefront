@@ -101,7 +101,8 @@ DATABASES = {
         "NAME": "storefront2",
         "USER": "postgres",
         "PASSWORD": "root",
-        "HOST": "localhost",
+        # "HOST": "localhost",  # For Windows, use localhost
+        "HOST": "172.31.112.1",  # Windows host IP for PostgreSQL access from WSL
         "PORT": "5432",
     }
 }
