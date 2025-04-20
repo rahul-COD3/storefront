@@ -27,12 +27,8 @@ admin.site.site_title = "Storefront Admin Portal"
 admin.site.index_title = "Welcome to the Storefront Admin Portal"
 
 
-def health_check(request):
-    return JsonResponse({"status": "ok"})
-
-
 urlpatterns = [
-    path("", health_check),
+    path("", include("core.urls")),
     path("admin/", admin.site.urls),
     path("playground/", include("playground.urls")),
     path("store/", include("store.urls")),
