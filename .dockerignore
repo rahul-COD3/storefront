@@ -1,11 +1,7 @@
 .venv
 __pycache__
 db.sqlite3
-/media/
-/static/
 /.vscode/settings.json
 .pytest_cache
 *.pyc
 general.log
-.env*
-celerybeat-schedule
