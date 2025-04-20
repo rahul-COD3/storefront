@@ -1,7 +1,9 @@
 .venv
 __pycache__
 db.sqlite3
-/media/store
+/media/
+/static/
 /.vscode/settings.json
 .pytest_cache
 *.pyc
+general.log
