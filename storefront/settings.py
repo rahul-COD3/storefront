@@ -190,6 +190,7 @@ DJOSER = {
         "current_user": "core.serializers.UserSerializer",
     }
 }
+
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
@@ -212,4 +213,15 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": 10.0,
         "args": ["Rahul"],
     },
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "TIMEOUT": 60 * 10,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
 }
