@@ -11,9 +11,11 @@ celery==5.5.1
 djoser==2.3.1
 drf-nested-routers==0.94.1
 flower==2.0.1
+gunicorn==23.0.0
 locust==2.35.0
 model_bakery==1.20.4
 pillow==11.2.1
 psycopg2-binary==2.9.10
 pytest==8.3.5
 redis==5.2.1
+python-decouple==3.8

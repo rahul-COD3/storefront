@@ -7,3 +7,4 @@ db.sqlite3
 .pytest_cache
 *.pyc
 general.log
+.env*
