@@ -3,10 +3,11 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 import dj_database_url
+import secrets
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = config("SECRET_KEY", default=secrets.token_urlsafe(nbytes=64))
 
 DEBUG = config("DEBUG", default=True, cast=bool)
 
@@ -171,7 +172,8 @@ EMAIL_PORT = config("EMAIL_PORT", cast=int)
 
 ADMINS = [("Rahul", "rahulpromact@gmail.com")]
 
-CELERY_BROKER_URL = "redis://localhost:6379/1"
+CELERY_BROKER_URL = config("REDIS_URL")
+CELERY_RESULT_BACKEND = config("REDIS_URL")
 
 CELERY_BEAT_SCHEDULE = {
     "notify_customer": {
