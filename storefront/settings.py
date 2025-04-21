@@ -171,7 +171,8 @@ EMAIL_PORT = config("EMAIL_PORT", cast=int)
 
 ADMINS = [("Rahul", "rahulpromact@gmail.com")]
 
-CELERY_BROKER_URL = "redis://localhost:6379/1"
+CELERY_BROKER_URL = config("REDIS_URL")
+CELERY_RESULT_BACKEND = config("REDIS_URL")
 
 CELERY_BEAT_SCHEDULE = {
     "notify_customer": {
