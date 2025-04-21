@@ -4,7 +4,7 @@ from datetime import timedelta
 from decouple import config
 import dj_database_url
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
 
@@ -218,5 +218,3 @@ LOGGING = {
         }
     },
 }
-
-DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
