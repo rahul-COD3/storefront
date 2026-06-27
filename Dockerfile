@@ -1,24 +1,20 @@
-FROM python:3.12
+FROM python:3.13-slim
 
-ENV PYTHONUNBUFFERED=1
-WORKDIR /app
+ENV PYTHONUNBUFFERED=1 \
+    UV_PROJECT_ENVIRONMENT=/venv \
+    PATH="/venv/bin:$PATH"
 
-# Required to install mysqlclient with Pip
 RUN apt-get update \
-  && apt-get install python3-dev default-libmysqlclient-dev gcc -y
+  && apt-get install -y python3-dev default-libmysqlclient-dev gcc pkg-config \
+  && rm -rf /var/lib/apt/lists/*
 
-# Install uv
-RUN pip install --upgrade pip 
 RUN pip install uv
 
-# Install application dependencies
-COPY requirements.txt /app/
-# We use the --system flag so packages are installed into the system python
-# and not into a virtualenv. Docker containers don't need virtual environments. 
-RUN uv pip install --system -r requirements.txt
+WORKDIR /app
 
-# Copy the application files into the image
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --all-groups --no-install-project
+
 COPY . /app/
 
-# Expose port 8000 on the container
 EXPOSE 8000

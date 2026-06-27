@@ -9,6 +9,8 @@ services:
       - redis
       - mysql
     restart: on-failure
+    env_file:
+      - docker.env
     volumes:
       - .:/app
   mysql:
@@ -39,6 +41,8 @@ services:
     command: celery -A storefront worker --loglevel=info
     depends_on:
       - redis
+    env_file:
+      - docker.env
     volumes:
       - .:/app
   celery-beat:
@@ -46,6 +50,8 @@ services:
     command: celery -A storefront beat --loglevel=info
     depends_on:
       - redis
+    env_file:
+      - docker.env
     volumes:
       - .:/app
   flower:
@@ -55,6 +61,8 @@ services:
       - web
       - redis
       - celery
+    env_file:
+      - docker.env
     environment:
       - DEBUG=1
       - CELERY_BROKER=redis://redis:6379/0
@@ -68,6 +76,8 @@ services:
       - redis
       - mysql
     tty: true
+    env_file:
+      - docker.env
     volumes:
       - .:/app
 volumes:
